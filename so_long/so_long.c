@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtryason <vtryason@student.42.fr>          +#+  +:+       +#+        */
+/*   By: viktortr <viktortr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 13:51:37 by vtryason          #+#    #+#             */
-/*   Updated: 2023/06/15 10:32:20 by vtryason         ###   ########.fr       */
+/*   Updated: 2023/06/15 12:21:55 by viktortr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
-
 
 typedef struct	s_data {
 	void	*img;
