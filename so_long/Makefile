@@ -1,66 +1,32 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: viktortr <viktortr@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/12/12 18:43:51 by edos-san          #+#    #+#              #
-#    Updated: 2023/06/15 12:28:35 by viktortr         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+FILESC =  ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
+			ft_isprint.c ft_strlen.c ft_memset.c ft_bzero.c ft_memcpy.c \
+			ft_memmove.c ft_strlcpy.c ft_strlcat.c ft_toupper.c ft_tolower.c \
+			ft_strchr.c ft_strrchr.c ft_strncmp.c ft_memchr.c ft_memcmp.c \
+			ft_strnstr.c ft_atoi.c ft_calloc.c ft_strdup.c ft_substr.c \
+			ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c \
+			ft_striteri.c ft_putstr_fd.c ft_putnbr_fd.c ft_putchar_fd.c \
+			ft_putendl_fd.c ft_putnbr_fd.c get_next_line.c get_next_line_utils.c \
+			ft_source.c ft_second_source.c ft_printf.c ft_lstnew.c ft_lstadd_front.c \
+			ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c \
+			ft_lstiter.c ft_lstmap.c
 
-CC			= 	gcc -Wall -Wextra -Werror  -g -fsanitize=address
-RM			= 	/bin/rm -f
-NAME		= 	so_long
-MILIB		=	-I /usr/X11/include -g -L /usr/X11/lib -l minilibx-linux -framework OpenGL -framework AppKit
+FILESO := $(FILESC:.c=.o)
 
-SRCS		=   so_long.c
-OBJS		= 	$(SRCS:.c=.o)
+CFLAGS = -Wall -Wextra -Werror
 
+NAME := libft.a
 
-MLX_LIB_DIR = mlx_linux/
-MLX_INCLUDE = -Imlx_linux
+all: $(NAME) 
 
-
-MLX_FLAGS = -L$(MLX_LIB_DIR) -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
-
-all: $(NAME)
-
-$(NAME): $(OBJS) 
-	@$(MAKE) -s -C mlx_linux
-	@$(CC) $(^) $(MLX_FLAGS) -o $(@)
-
-%.o: %.c $(MLX_LIB)
-	@$(CC) $(MLX_INCLUDE) -c $(^) -o $(@)
-
-bonus: all
+$(NAME):	$(FILESO)
+		ar rcs $(NAME) $(FILESO)
 
 clean:
-	@$(RM) $(OBJS)
-	@echo "\033[0;31mREMOVED OBJECT FILES\033[0m"
+		rm -f $(FILESO)
 
 fclean: clean
-	@$(RM) $(NAME)
-	@echo "\033[0;31mREMOVED cub3D EXECUTABLE\033[0m"
+		 rm -f $(NAME)
 
-re: fclean all
+re: fclean $(NAME) 
 
-norm :
-	@norminette -R CheckForbiddenSourceHeader $(SRCS) headers/
-
-m: fclean
-
-v:
-	@make re && make clean && clear && valgrind ./cub3D map/map1.cub
-
-vv:
-	@make re && make clean && clear && valgrind  -v ./cub3D map/*
-r:
-	@make re && make clean && clear && ./cub3D map/map3.cub
-
-rr:
-	@make re && make clean && clear && ./cub3D map/map33.cub
-
-
-.PHONY: all re clean fclean m
+.PHONY: all clean fclean re
