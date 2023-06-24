@@ -1,7 +1,7 @@
 NAME = so_long
 
 
-SRCS = so_long.c check_the_map.c 
+SRCS = so_long.c check_the_map.c put_textures.c hook.c utils.c
 OBJS = $(SRCS:.c=.o)
 
 FLAGS = -Wall -Wextra -Werror -g -fsanitize=address -Iinc/

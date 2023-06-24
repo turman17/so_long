@@ -6,7 +6,7 @@
 /*   By: vtryason <vtryason@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 17:12:19 by vtryason          #+#    #+#             */
-/*   Updated: 2023/06/21 17:45:35 by vtryason         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:34:24 by vtryason         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,54 @@ void	check_counts(t_map *map)
 	}
 }
 
-int	check_line_length(int result, int tmp_res)
+int	check_line_length(t_map *game)
 {
-	if (result != tmp_res)
+	int	y;
+
+	y = 0;
+	while (game->map[y] && game->map[y + 1])
 	{
-		ft_printf("Inconsistent line length\n");
-		return (-1);
+		if (ft_strlen(game->map[y]) == ft_strlen(game->map[y + 1])
+			|| game->map[y + 1] == 0)
+			y++;
+		else
+		{
+			printf("Wrong size");
+			exit(1);
+		}
+	}
+	return (0);
+}
+
+int	walls(t_map *game)
+{
+	int	x;
+	int	y;
+	int	len;
+
+	y = 0;
+	while (game->map[y])
+	{
+		len = ft_strlen(game->map[y]);
+		if (len < 2 || game->map[y][0] != '1' || game->map[y][len - 1] != '1')
+		{
+			printf("Map is not surrounded by walls");
+			exit(1);
+		}
+		if (y == 0 || game->map[y + 1] == NULL)
+		{
+			x = 0;
+			while (game->map[y][x])
+			{
+				if (game->map[y][x] != '1')
+				{
+					printf("Map is not surrounded by walls");
+					exit(1);
+				}
+				x++;
+			}
+		}
+		y++;
 	}
 	return (0);
 }
@@ -61,39 +103,34 @@ void	count_characters(char *tmp, t_map *map)
 	}
 }
 
-int	check_the_map(t_map *window, char *map)
+void	read_map(char *file, t_map *window)
 {
-	int		fd;
 	char	*tmp;
-	int		result;
-	int		tmp_res;
+	char	*tmp_result;
+	char	*result;
+	int		fd;
 
-	fd = open(map, O_RDONLY);
-	if (fd < 0)
+	fd = open(file, O_RDONLY);
+	result = ft_strdup("");
+	while (fd)
 	{
-		ft_printf("Error opening file");
-		return (-1);
-	}
-	tmp = get_next_line(fd);
-	while (tmp != NULL)
-	{
-		window->height++;
-		if (window->height == 1)
-		{
-			result = ft_strlen(tmp);
-			window->width = result - 1;
-		}
-		count_characters(tmp, window);
-		free(tmp);
 		tmp = get_next_line(fd);
-		if (tmp != NULL)
-		{
-			tmp_res = ft_strlen(tmp);
-			check_line_length(result, tmp_res);
-		}
-	}
-	if (tmp != NULL)
+		if (!tmp)
+			break ;
+		tmp_result = ft_strjoin(result, tmp);
+		free(result);
+		result = tmp_result;
+		count_characters(tmp, window);
+		window->height++;
 		free(tmp);
+	}
+	window->map = ft_split(result, '\n');
+	free(result);
+	if (window->map[0] == 0)
+		exit(1);
+	window->width = ft_strlen(window->map[0]);
+	check_line_length(window);
+	walls(window);
 	check_counts(window);
-	return (0);
+	close(fd);
 }
