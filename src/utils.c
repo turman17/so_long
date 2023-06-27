@@ -6,11 +6,34 @@
 /*   By: vtryason <vtryason@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 17:15:04 by vtryason          #+#    #+#             */
-/*   Updated: 2023/06/24 20:31:12 by vtryason         ###   ########.fr       */
+/*   Updated: 2023/06/27 13:30:04 by vtryason         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+void	free_map(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
+}
+
+void	free_images(t_map *game)
+{
+	mlx_destroy_image(game->initmlx, game->img.ptr);
+	mlx_destroy_image(game->initmlx, game->wall.ptr);
+	mlx_destroy_image(game->initmlx, game->player.ptr);
+	mlx_destroy_image(game->initmlx, game->exit.ptr);
+	mlx_destroy_image(game->initmlx, game->collect.ptr);
+	mlx_destroy_image(game->initmlx, game->floor.ptr);
+}
 
 void	refresh_grafics_player(t_map *game, int x, int y, char flag)
 {
@@ -36,4 +59,35 @@ void	refresh_grafics_player(t_map *game, int x, int y, char flag)
 		load_graphics(game, &game->player, x + 1, y);
 	}
 	mlx_put_image_to_window(game->initmlx, game->winmlx, game->img.ptr, 0, 0);
+}
+
+void	exit_game(t_map *game)
+{
+	free_map(game->map);
+	free_images(game);
+	if (game->winmlx)
+		mlx_destroy_window(game->initmlx, game->winmlx);
+	mlx_destroy_display(game->initmlx);
+	free(game->initmlx);
+	exit(0);
+}
+
+int	format_check(char *str)
+{
+	int	len;
+
+	len = ft_strlen(str);
+	if (len < 4)
+	{
+		ft_printf("Not .ber address");
+		exit(1);
+	}
+	else if (str[len - 4] == '.' && str[len - 3] == 'b' && str[len - 2] == 'e'
+		&& str[len - 1] == 'r')
+		return (0);
+	else
+	{
+		ft_printf("Not .ber address");
+		exit(1);
+	}
 }

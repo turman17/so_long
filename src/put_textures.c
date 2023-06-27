@@ -6,7 +6,7 @@
 /*   By: vtryason <vtryason@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:50:23 by vtryason          #+#    #+#             */
-/*   Updated: 2023/06/24 16:04:46 by vtryason         ###   ########.fr       */
+/*   Updated: 2023/06/26 19:54:50 by vtryason         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	init_images(t_map *game)
 	game->wall = create_img("textures/txt/wall.xpm", game);
 	game->collect = create_img("textures/txt/Colect.xpm", game);
 	game->exit = create_img("textures/txt/exit1.xpm", game);
-	game->exit2 = create_img("textures/txt/exit1.xpm", game);
 	game->player = create_img("textures/characters/main.xpm", game);
 	game->floor = create_img("textures/txt/floor.xpm", game);
 	put_grafics(game);
@@ -89,8 +88,8 @@ void	put_grafics(t_map *game)
 	int	x;
 	int	y;
 
-	y = 0;
-	while (game->map[y])
+	y = -1;
+	while (game->map[++y])
 	{
 		x = 0;
 		while (game->map[y][x])
@@ -99,8 +98,8 @@ void	put_grafics(t_map *game)
 				|| game->map[y][x] == 'C' || game->map[y][x] == '1'
 				|| game->map[y][x] == 'E')
 				load_graphics(game, &game->floor, x, y);
-				if (game->map[y][x] == 'P')
-					load_graphics(game, &game->player, x, y);
+			if (game->map[y][x] == 'P')
+				load_graphics(game, &game->player, x, y);
 			if (game->map[y][x] == 'C')
 				load_graphics(game, &game->collect, x, y);
 			if (game->map[y][x] == '1')
@@ -109,7 +108,6 @@ void	put_grafics(t_map *game)
 				load_graphics(game, &game->exit, x, y);
 			x++;
 		}
-		y++;
 	}
 	mlx_put_image_to_window(game->initmlx, game->winmlx, game->img.ptr, 0, 0);
 }

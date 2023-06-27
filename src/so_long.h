@@ -6,15 +6,15 @@
 /*   By: vtryason <vtryason@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:41:59 by vtryason          #+#    #+#             */
-/*   Updated: 2023/06/24 20:34:03 by vtryason         ###   ########.fr       */
+/*   Updated: 2023/06/27 13:44:36 by vtryason         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "./Libft/libft.h"
-# include "./mlx_linux/mlx.h"
+# include "../Libft/libft.h"
+# include "../mlx_linux/mlx.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -67,5 +67,13 @@ void		read_map(char *file, t_map *window);
 int			hook(int keycode, t_map *game);
 void		load_graphics(t_map *game, t_data *type, int x_pos, int y_pos);
 void		refresh_grafics_player(t_map *game, int x, int y, char flag);
+int			build_the_map(t_map *game);
+void		exit_game(t_map *game);
+int			format_check(char *str);
+void		exit_game(t_map *game);
+void		free_map(char **map);
+void		error_wall(void);
+void		check_counts(t_map *map);
+int			check_line_length(t_map *game);
 
 #endif

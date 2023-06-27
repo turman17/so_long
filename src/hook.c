@@ -6,20 +6,11 @@
 /*   By: vtryason <vtryason@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 16:27:13 by vtryason          #+#    #+#             */
-/*   Updated: 2023/06/24 19:22:44 by vtryason         ###   ########.fr       */
+/*   Updated: 2023/06/26 20:07:28 by vtryason         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	exit_game(t_map *game)
-{
-	mlx_destroy_image(game->initmlx, game->img.ptr);
-	mlx_destroy_window(game->initmlx, game->winmlx);
-	mlx_destroy_display(game->initmlx);
-	free(game->initmlx);
-	exit(0);
-}
 
 void	move_w(t_map *game)
 {
@@ -112,13 +103,7 @@ void	move_d(t_map *game)
 int	hook(int keycode, t_map *game)
 {
 	if (keycode == 65307)
-	{
-		mlx_destroy_image(game->initmlx, game->img.ptr);
-		mlx_destroy_window(game->initmlx, game->winmlx);
-		mlx_destroy_display(game->initmlx);
-		free(game->initmlx);
-		exit(0);
-	}
+		exit_game(game);
 	if (keycode == 119)
 		move_w(game);
 	if (keycode == 115)
